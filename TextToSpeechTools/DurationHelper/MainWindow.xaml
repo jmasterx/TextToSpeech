@@ -1,0 +1,63 @@
+﻿<Window x:Class="DurationHelper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DurationHelper"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=local:DurationViewModel, IsDesignTimeCreatable=False}" 
+        Title="MainWindow" Height="1080" Width="1920">
+    <Grid Name="Me">
+       <Grid.RowDefinitions>
+         <RowDefinition Height="Auto"/>
+         <RowDefinition Height="8"/>
+         <RowDefinition Height="*"/>
+       </Grid.RowDefinitions> 
+      <Grid Grid.Row="0">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="8"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="8"/>
+          <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="8"/>
+          <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Tempo:"/>
+        <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Text:"/>
+
+        <TextBox Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" Width="100" MaxLength="3" Text="{Binding Tempo}"/>
+      <ScrollViewer Grid.Row="2" Grid.Column="2" HorizontalAlignment="Stretch" Height="300" VerticalScrollBarVisibility="Auto">
+        <TextBox TextWrapping="Wrap"  AcceptsReturn="False" Text="{Binding Text}"/>
+      </ScrollViewer>
+        <StackPanel Margin="5" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal">
+          <Button Command="{Binding GenerateWordsCommand}" IsEnabled="{Binding IsGenerateWordsCommandEnabled}" Content="Preprocess"/>
+          <Button Command="{Binding GenerateCommand}" IsEnabled="{Binding IsGenerateCommandEnabled}" Content="Generate"/>
+      </StackPanel>
+      </Grid>
+      <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding Words}" Grid.Row="2" >
+        <ListView.View>
+          <GridView>
+          <GridViewColumn Header="Word">
+            <GridViewColumn.CellTemplate>
+              <DataTemplate>
+                <Label Content="{Binding Word}"/>
+              </DataTemplate>
+            </GridViewColumn.CellTemplate>
+          </GridViewColumn>
+            <GridViewColumn Header="Note">
+              <GridViewColumn.CellTemplate>
+                <DataTemplate>
+                  <ComboBox Width="150" ItemsSource="{Binding DataContext.Notes, ElementName=Me}" SelectedValue="{Binding Note}"/>
+                </DataTemplate>
+              </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+        </GridView>
+        </ListView.View>
+      </ListView>
+    </Grid>
+</Window>
